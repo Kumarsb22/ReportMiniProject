@@ -1,0 +1,33 @@
+server:
+   port: 8888 
+
+spring:
+  application:
+    name: SECOND_MINI_PROJECT
+  datasource:
+          driver-class-name: org.postgresql.Driver
+          url: jdbc:postgresql://localhost:5433/secondminproject
+          username: postgres
+          password: nic@123
+  mail:
+    host: smtp.gmail.com  
+    port: 587
+    username: srkskumar22
+    password: opcechzhmujiussm
+    properties:
+           mail:
+             smtp:
+               auth: true
+               starttls:
+                  enable: true  
+                  required: true     
+  jpa:
+      show-sql: true
+      hibernate:
+          ddl-auto: update
+      properties:
+          hibernate: 
+             formate-sql: true  
+             dailect: org.hibernate.dailect.PostgreSQLDailct 
+          
+          

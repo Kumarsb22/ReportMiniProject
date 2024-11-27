@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="www.theymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>View Enquiries</title>
+<link
+	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH"
+	crossorigin="anonymous">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+
+<script>
+	$(document).ready(function() {
+		$(".form-select").on("change", function(e) {
+
+			$.ajax({
+				type : "GET",
+				url : "filter-enquires",
+				data : {
+					cmode : $("#mode").val(),
+
+					cname : $("#cname").val(),
+
+					status : $("#status").val(),
+				},
+				success : function(result) {
+					console.log(result);
+					$("#enqTbl").hide();
+
+					$("#filterResultTbl").html(result);
+
+				}
+			})
+
+		});
+
+	});
+</script>
+</head>
+<body>
+
+	<h2 class="text-center">View Student Enquiries</h2>
+	<div class="container mt-5">
+		<a href="/logout" type="submit" class="btn btn-secondary">Logout</a> <a
+			href="/addenq" type="submit" class="btn btn-secondary">Add
+			Enquiry</a>
+
+		<div class="  form-outline  mb-5 col-md-4">
+
+			<select id="cname" class="form-select">
+				<option value="">-Select-</option>
+				<option th:each="c : ${course}" th:value="${c}" th:text="${c}"></option>
+			</select>
+
+		</div>
+
+		<div class="  form-outline  mb-5 col-md-4">
+			<select id="status" class="form-select">
+				<option value="">-Select-</option>
+				<option th:each="s : ${status}" th:value="${s}" th:text="${s}"></option>
+			</select>
+		</div>
+
+		<div class="  form-outline  mb-5 col-md-4">
+			<select id="mode" class="form-select">
+				<option value="">-Select-</option>
+				<option value="Online">Online</option>
+				<option value="Offline">Offline</option>
+			</select>
+		</div>
+
+		<div id="filterResultTbl"></div>
+		<table class="table table-striped table-hover table-bordered"
+			id="enqTbl">
+			<thead>
+				<tr>
+					<th scope="col">Sl No</th>
+					<th scope="col">Name</th>
+					<th scope="col">Course</th>
+					<th scope="col">Number</th>
+					<th scope="col">Enquiry Date</th>
+					<th scope="col">Status</th>
+					<th scope="col">Mode</th>
+					<th scope="col">Action</th>
+				</tr>
+
+			</thead>
+
+			<tbody id="table-body">
+
+				<tr th:each="enq ,iterator : ${enquires}">
+					<td th:text="${iterator .index} + 1"></td>
+					<td th:text="${enq.studentName}"></td>
+					<td th:text="${enq.courseName}"></td>
+					<td th:text="${enq.phone}"></td>
+					<td th:text="${enq.createdDate}"></td>
+					<td th:text="${enq.enqueryStatus}"></td>
+					<td th:text="${enq.classMode}"></td>
+					<td><a class="btn btn-primary" th:href="@{/edit/{id}(id=${enq.enqueryId})}">Edit</a></td>
+
+				</tr>
+			</tbody>
+		</table>
+	</div>
+
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+</body>
+</html>
